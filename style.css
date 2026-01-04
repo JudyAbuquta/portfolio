@@ -304,3 +304,27 @@
     z-index: 10;
     pointer-events: none;
 }
+
+/*      FADE-IN ANIMATIONS     */
+section:not(#hero) {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+}
+
+section:not(#hero).fade-in {
+    opacity: 1;
+    transform: translateY(0);
+
+}
+
+#about.fade-in { transition-delay: 0.1s; }
+#education.fade-in { transition-delay: 0.1s; }
+#projects.fade-in { transition-delay: 0.1s; }
+#papers.fade-in { transition-delay: 0.1s; }
+#skills.fade-in { transition-delay: 0.1s; }
+#contact.fade-in { transition-delay: 0.1s; }
+
+#hero {
+    opacity: 1 !important;
+}
