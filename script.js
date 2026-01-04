@@ -143,3 +143,26 @@ window.addEventListener('resize', () => {
 // Initialize and Start
 init();
 animate();
+
+
+//  FADE-IN ANIMATIONS ON SCROLL 
+const fadeSections = document.querySelectorAll('section:not(#hero)');
+
+const fadeObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            entry.target.classList.add('fade-in');
+        }
+    });
+}, {
+    threshold: 0.15,
+    rootMargin: '0px 0px -100px 0px'
+});
+
+fadeSections.forEach(section => {
+    fadeObserver.observe(section);
+});
+
+window.addEventListener('load', () => {
+    document.querySelector('#hero').style.opacity = '1';
+});
