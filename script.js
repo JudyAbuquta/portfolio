@@ -1,3 +1,14 @@
+// ---- FLIP CARD TOUCH SUPPORT ----
+const isTouchDevice = () => window.matchMedia('(hover: none) and (pointer: coarse)').matches;
+
+document.querySelectorAll('.flip-card').forEach(card => {
+    card.addEventListener('click', (e) => {
+        if (!isTouchDevice()) return;
+        const isFlipped = card.classList.toggle('flipped');
+        if (!isFlipped) e.preventDefault();
+    });
+});
+
 // ---- MOBILE NAV TOGGLE ----
 const navToggle = document.getElementById('nav-toggle');
 const navMobile = document.getElementById('nav-mobile');
@@ -273,7 +284,6 @@ window.addEventListener('load', () => {
         }, 300);
     }
 
-    const isTouchDevice = () => window.matchMedia('(hover: none) and (pointer: coarse)').matches;
     let ignoreMouse = false;
 
     function showBubble(text) {
