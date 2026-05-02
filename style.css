@@ -943,3 +943,59 @@ section:not(#hero).fade-in {
 #hero {
     opacity: 1 !important;
 }
+/* ===================== MOBILE RESPONSIVE ===================== */
+@media (max-width: 768px) {
+
+    /* Tighter section spacing */
+    :root { --section-gap: 70px; }
+
+    section { padding: var(--section-gap) 16px; }
+
+    /* Smaller section titles */
+    .section-title { font-size: 1.8rem; margin-bottom: 2rem; }
+
+    /* Hero */
+    .hero-subtitle { font-size: 0.65rem; letter-spacing: 0.25em; margin-bottom: 0.75rem; }
+    .name-heading { font-size: 3rem !important; letter-spacing: 0.1em; }
+    .btn-cta { padding: 12px 28px; font-size: 0.65rem; }
+    #hero-judy-img { width: 150px !important; }
+    .hero-speech-bubble { font-size: 0.65rem; padding: 8px 12px; max-width: 170px; }
+
+    /* Glass cards — less padding, tighter */
+    .glass-card { padding: 20px; border-radius: 14px; }
+
+    /* About section info card smaller text */
+    #about .glass-card p { font-size: 0.9rem; }
+
+    /* Skill chips smaller */
+    .skill-chip { font-size: 0.7rem; padding: 6px 14px; }
+
+    /* Project cards */
+    .project-tag { font-size: 0.55rem; }
+    .btn-overview, .btn-action { font-size: 0.6rem; padding: 8px 14px; }
+
+    /* Cert cards */
+    .cert-card { padding: 14px; }
+    .cert-title { font-size: 0.75rem; }
+    .cert-desc { font-size: 0.65rem; }
+
+    /* Judy corner avatar — smaller on mobile */
+    #judy-corner-img { width: 70px !important; }
+    .judy-bubble { font-size: 0.65rem; max-width: 160px; padding: 8px 10px; }
+
+    /* Contact grid — single column */
+    #contact .grid { grid-template-columns: 1fr !important; }
+    #contact .glass-card { max-width: 100% !important; }
+
+    /* Modal */
+    .modal-box { padding: 24px 18px; border-radius: 16px; }
+    .modal-title { font-size: 1rem; }
+    .modal-text { font-size: 0.8rem; }
+    .modal-how-desc { font-size: 0.75rem; }
+
+    /* Timeline */
+    .timeline-container { padding-left: 1.2rem; }
+
+    /* Profile frame */
+    .profile-frame { width: 140px; height: 140px; }
+}
