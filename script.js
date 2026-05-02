@@ -177,10 +177,7 @@ window.addEventListener('load', () => {
         cinema:   'assets/images/judy-cinema.png',
         donut:    'assets/images/judy-donut.png',
     };
-Object.values(illustrations).forEach(src => {
-    const img = new Image();
-    img.src = src;
-});
+
     const sectionConfig = {
         about: {
             pose: 'music',
@@ -259,10 +256,15 @@ Object.values(illustrations).forEach(src => {
         }, 300);
     }
 
+    const isTouchDevice = () => window.matchMedia('(hover: none) and (pointer: coarse)').matches;
+
     function showBubble(text) {
         bubbleText.textContent = text;
         bubble.classList.add('visible');
         clearTimeout(bubbleTimeout);
+        if (isTouchDevice()) {
+            bubbleTimeout = setTimeout(() => bubble.classList.remove('visible'), 3000);
+        }
     }
 
     function getQuote() {
@@ -275,10 +277,13 @@ Object.values(illustrations).forEach(src => {
 
     avatar.addEventListener('mouseenter', () => showBubble(getQuote()));
     avatar.addEventListener('mouseleave', () => {
-        clearTimeout(bubbleTimeout);
-        bubble.classList.remove('visible');
+        if (!isTouchDevice()) {
+            clearTimeout(bubbleTimeout);
+            bubble.classList.remove('visible');
+        }
     });
     avatar.addEventListener('click', () => showBubble(getQuote()));
+    avatar.addEventListener('touchstart', (e) => { e.preventDefault(); showBubble(getQuote()); }, { passive: false });
 
     // Wiggle: about = first at 3s then every 6s / all others = every 15s
     let wiggleTimer;
