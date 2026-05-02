@@ -177,7 +177,10 @@ window.addEventListener('load', () => {
         cinema:   'assets/images/judy-cinema.png',
         donut:    'assets/images/judy-donut.png',
     };
-
+Object.values(illustrations).forEach(src => {
+    const img = new Image();
+    img.src = src;
+});
     const sectionConfig = {
         about: {
             pose: 'music',
