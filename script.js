@@ -1,3 +1,20 @@
+// ---- MOBILE NAV TOGGLE ----
+const navToggle = document.getElementById('nav-toggle');
+const navMobile = document.getElementById('nav-mobile');
+
+navToggle.addEventListener('click', () => {
+    const isOpen = navMobile.classList.toggle('open');
+    navToggle.classList.toggle('open', isOpen);
+});
+
+// Close menu when a link is tapped
+navMobile.querySelectorAll('.nav-link').forEach(link => {
+    link.addEventListener('click', () => {
+        navMobile.classList.remove('open');
+        navToggle.classList.remove('open');
+    });
+});
+
 const bg = document.getElementById('sunrise-bg');
         const navLinks = document.querySelectorAll('.nav-link');
         const sections = document.querySelectorAll('section');
@@ -257,14 +274,13 @@ window.addEventListener('load', () => {
     }
 
     const isTouchDevice = () => window.matchMedia('(hover: none) and (pointer: coarse)').matches;
+    let ignoreMouse = false;
 
     function showBubble(text) {
         bubbleText.textContent = text;
         bubble.classList.add('visible');
         clearTimeout(bubbleTimeout);
-        if (isTouchDevice()) {
-            bubbleTimeout = setTimeout(() => bubble.classList.remove('visible'), 3000);
-        }
+        bubbleTimeout = setTimeout(() => bubble.classList.remove('visible'), 3000);
     }
 
     function getQuote() {
@@ -275,15 +291,22 @@ window.addEventListener('load', () => {
         return q;
     }
 
-    avatar.addEventListener('mouseenter', () => showBubble(getQuote()));
-    avatar.addEventListener('mouseleave', () => {
-        if (!isTouchDevice()) {
-            clearTimeout(bubbleTimeout);
-            bubble.classList.remove('visible');
-        }
+    avatar.addEventListener('mouseenter', () => {
+        if (ignoreMouse) return;
+        showBubble(getQuote());
+        if (!isTouchDevice()) clearTimeout(bubbleTimeout);
     });
-    avatar.addEventListener('click', () => showBubble(getQuote()));
-    avatar.addEventListener('touchstart', (e) => { e.preventDefault(); showBubble(getQuote()); }, { passive: false });
+    avatar.addEventListener('mouseleave', () => {
+        if (isTouchDevice()) return;
+        clearTimeout(bubbleTimeout);
+        bubble.classList.remove('visible');
+    });
+    avatar.addEventListener('touchstart', (e) => {
+        e.preventDefault();
+        ignoreMouse = true;
+        setTimeout(() => { ignoreMouse = false; }, 600);
+        showBubble(getQuote());
+    }, { passive: false });
 
     // Wiggle: about = first at 3s then every 6s / all others = every 15s
     let wiggleTimer;
