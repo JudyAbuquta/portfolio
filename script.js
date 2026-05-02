@@ -1,4 +1,4 @@
-        const bg = document.getElementById('sunrise-bg');
+const bg = document.getElementById('sunrise-bg');
         const navLinks = document.querySelectorAll('.nav-link');
         const sections = document.querySelectorAll('section');
 
@@ -166,3 +166,327 @@ fadeSections.forEach(section => {
 window.addEventListener('load', () => {
     document.querySelector('#hero').style.opacity = '1';
 });
+
+
+    // ---- JUDY AVATAR SYSTEM ----
+    const illustrations = {
+        thinking: 'assets/images/judy-thinking.png',
+        smirk:    'assets/images/judy-smirk.png',
+        code:    'assets/images/judy-laptop.png',
+        music:    'assets/images/judy-music.png',
+        cinema:   'assets/images/judy-cinema.png',
+        donut:    'assets/images/judy-donut.png',
+    };
+
+    const sectionConfig = {
+        about: {
+            pose: 'music',
+            quotes: [
+                "listening to... Don't Stop Me Now by Queen 🎶",
+                "in the zone right now 🎧",
+            ]
+        },
+        education: {
+            pose: 'donut',
+            quotes: [
+                "started uni at 15, not your average college experience",
+            ]
+        },
+        projects: {
+            pose: 'thinking',
+            quotes: [
+                "sleep is a suggestion when you're debugging",
+                "Most of my github commits are timestamped at 3am. don't judge.",
+            ]
+        },
+        papers: {
+            pose: 'smirk',
+            quotes: [
+                "peer reviewed by me, determination, and caffeine",
+                "read 40 papers so you don't have to 🙂",
+                "academic writing at 2am hits different",
+            ]
+        },
+        certifications: {
+            pose: 'donut',
+            quotes: [
+                "every cert = one donut. system works ",
+                "finished the course. rewarded myself. obviously.",
+            ]
+        },
+        skills: {
+            pose: 'smirk',
+            quotes: [
+                "skill not listed: can name every 80s one-hit wonder",
+                "soft skill: looking unbothered while panicking internally",
+            ]
+        },
+        contact: {
+            pose: 'cinema',
+            quotes: [
+                "if i don't reply, you could probably find me at the cinema 🎬",
+            ]
+        },
+    };
+
+    const avatar = document.getElementById('judy-avatar');
+    const bubble = document.getElementById('judy-bubble');
+    const bubbleText = document.getElementById('judy-bubble-text');
+    const cornerImg = document.getElementById('judy-corner-img');
+    let bubbleTimeout;
+    let currentPose = 'smirk';
+    let currentSection = '';
+    let sectionClickIndex = 0;
+
+    cornerImg.style.transition = 'opacity 0.2s ease, transform 0.4s cubic-bezier(0.34,1.56,0.64,1)';
+
+    function doWiggle() {
+        if (!avatar.classList.contains('visible')) return;
+        cornerImg.classList.add('wiggling');
+        setTimeout(() => cornerImg.classList.remove('wiggling'), 600);
+    }
+
+    function setPose(pose) {
+        if (!illustrations[pose] || pose === currentPose) return;
+        currentPose = pose;
+        cornerImg.classList.add('wiggling');
+        setTimeout(() => {
+            cornerImg.src = illustrations[pose];
+            cornerImg.classList.remove('wiggling');
+        }, 300);
+    }
+
+    function showBubble(text) {
+        bubbleText.textContent = text;
+        bubble.classList.add('visible');
+        clearTimeout(bubbleTimeout);
+    }
+
+    function getQuote() {
+        const config = sectionConfig[currentSection];
+        if (!config) return "hi 👋";
+        const q = config.quotes[sectionClickIndex % config.quotes.length];
+        sectionClickIndex++;
+        return q;
+    }
+
+    avatar.addEventListener('mouseenter', () => showBubble(getQuote()));
+    avatar.addEventListener('mouseleave', () => {
+        clearTimeout(bubbleTimeout);
+        bubble.classList.remove('visible');
+    });
+    avatar.addEventListener('click', () => showBubble(getQuote()));
+
+    // Wiggle: about = first at 3s then every 6s / all others = every 15s
+    let wiggleTimer;
+    function scheduleWiggle(isFirst) {
+        clearTimeout(wiggleTimer);
+        if (currentSection === 'about') {
+            const delay = isFirst ? 1000 : 6000;
+            wiggleTimer = setTimeout(() => { doWiggle(); scheduleWiggle(false); }, delay);
+        } else {
+            wiggleTimer = setTimeout(() => { doWiggle(); scheduleWiggle(false); }, 9000);
+        }
+    }
+    scheduleWiggle(true);
+
+    // ---- MUSIC NOTES ----
+    const musicNotesEl = document.getElementById('music-notes');
+    const noteSymbols = ['♪', '♫', '♩', '♬'];
+    let noteInterval;
+
+    function spawnNote() {
+        const note = document.createElement('span');
+        note.className = 'music-note';
+        note.textContent = noteSymbols[Math.floor(Math.random() * noteSymbols.length)];
+        const leftPct = 20 + Math.random() * 60;
+        const drift = (Math.random() - 0.5) * 30;
+        const duration = 2.2 + Math.random() * 1.5;
+        const delay = Math.random() * 0.5;
+        note.style.cssText = `
+            left: ${leftPct}%;
+            bottom: 0;
+            color: var(--color-orange);
+            animation-duration: ${duration}s;
+            animation-delay: ${delay}s;
+            --drift: ${drift}px;
+            opacity: 0;
+        `;
+        musicNotesEl.appendChild(note);
+        setTimeout(() => note.remove(), (duration + delay) * 1000);
+    }
+
+    function startNotes() {
+        if (noteInterval) return;
+        noteInterval = setInterval(spawnNote, 600);
+    }
+
+    function stopNotes() {
+        clearInterval(noteInterval);
+        noteInterval = null;
+        musicNotesEl.innerHTML = '';
+    }
+
+    const heroBubble = document.getElementById('hero-bubble');
+    const heroSequence = [
+        { text: "Hi, I'm Judy ", duration: 2300 },
+        { text: "Welcome to my portfolio.", duration: 3000 },
+        { text: "Hope you enjoy it !!", duration: 3000 },
+    ];
+    let heroSeqIndex = 0;
+    let heroRunning = false;
+
+    function runHeroSequence() {
+        const step = heroSequence[heroSeqIndex % heroSequence.length];
+        heroBubble.style.opacity = '0';
+        setTimeout(() => {
+            heroBubble.textContent = step.text;
+            heroBubble.style.opacity = '1';
+            heroSeqIndex++;
+            setTimeout(runHeroSequence, step.duration);
+        }, 250);
+    }
+
+    heroBubble.style.opacity = '0';
+    heroBubble.style.transition = 'opacity 0.25s ease';
+    runHeroSequence();
+
+    // Scroll
+    const heroSection = document.getElementById('hero');
+    const heroJudyWrap = document.getElementById('hero-judy-wrap');
+    let lastSection = '';
+    let poseDebounce;
+
+    function onScroll() {
+        const heroBottom = heroSection.getBoundingClientRect().bottom;
+        if (heroBottom < 80) {
+            avatar.classList.add('visible');
+            if (heroJudyWrap) { heroJudyWrap.style.opacity = '0'; heroJudyWrap.style.pointerEvents = 'none'; }
+        } else {
+            avatar.classList.remove('visible');
+            bubble.classList.remove('visible');
+            if (heroJudyWrap) { heroJudyWrap.style.opacity = '1'; heroJudyWrap.style.pointerEvents = 'all'; }
+        }
+
+        clearTimeout(poseDebounce);
+        poseDebounce = setTimeout(() => {
+            const allSections = document.querySelectorAll('section[id]');
+            let current = '';
+            allSections.forEach(sec => {
+                if (window.scrollY >= sec.offsetTop - 250) current = sec.id;
+            });
+            if (current !== lastSection) {
+                lastSection = current;
+                currentSection = current;
+                sectionClickIndex = 0;
+                if (sectionConfig[current]) setPose(sectionConfig[current].pose);
+                scheduleWiggle(true);
+                if (current === 'about') startNotes();
+                else stopNotes();
+            }
+        }, isNavJump ? 150 : 300);
+    }
+
+    window.addEventListener('scroll', onScroll, { passive: true });
+
+    const sparkCanvas = document.getElementById('spark-canvas');
+    const sctx = sparkCanvas.getContext('2d');
+    sparkCanvas.width = window.innerWidth;
+    sparkCanvas.height = window.innerHeight;
+    window.addEventListener('resize', () => {
+        sparkCanvas.width = window.innerWidth;
+        sparkCanvas.height = window.innerHeight;
+    });
+    let sparks = [];
+    function Spark(x, y) {
+        const angle = Math.random() * Math.PI * 2;
+        const speed = Math.random() * 3 + 1;
+        return {
+            x, y,
+            vx: Math.cos(angle) * speed,
+            vy: Math.sin(angle) * speed - 1.5,
+            life: 1,
+            decay: Math.random() * 0.03 + 0.02,
+            size: Math.random() * 3 + 1,
+            color: Math.random() > 0.5 ? '#dba58f' : '#a9c2cf'
+        };
+    }
+    function animateSparks() {
+        sctx.clearRect(0, 0, sparkCanvas.width, sparkCanvas.height);
+        sparks = sparks.filter(s => s.life > 0);
+        sparks.forEach(s => {
+            s.x += s.vx;
+            s.y += s.vy;
+            s.vy += 0.08;
+            s.life -= s.decay;
+            sctx.beginPath();
+            sctx.arc(s.x, s.y, s.size * s.life, 0, Math.PI * 2);
+            sctx.fillStyle = s.color;
+            sctx.globalAlpha = s.life;
+            sctx.fill();
+            sctx.globalAlpha = 1;
+        });
+        requestAnimationFrame(animateSparks);
+    }
+    animateSparks();
+
+    function spawnSparks(x, y, count = 12) {
+        for (let i = 0; i < count; i++) sparks.push(Spark(x, y));
+    }
+
+    document.querySelectorAll('.project-card').forEach(card => {
+        card.addEventListener('mousemove', e => {
+            if (Math.random() > 0.85) spawnSparks(e.clientX, e.clientY, 3);
+        });
+        card.addEventListener('click', e => spawnSparks(e.clientX, e.clientY, 20));
+    });
+
+    // ---- NAV WHOOSH ----
+    let isNavJump = false;
+    document.querySelectorAll('.nav-link').forEach(link => {
+        link.addEventListener('click', e => {
+            const href = link.getAttribute('href');
+            if (!href || !href.startsWith('#')) return;
+            e.preventDefault();
+            const target = document.querySelector(href);
+            if (!target) return;
+            isNavJump = true;
+            setTimeout(() => { isNavJump = false; }, 1500);
+            target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        });
+    });
+
+    // ---- CONTACT COPY ----
+    function copyEmail(el) {
+        navigator.clipboard.writeText('judy.abuquta@gmail.com').then(() => {
+            const val = el.querySelector('.contact-value');
+            const label = el.querySelector('.contact-label');
+            const orig = val.textContent;
+            const origLabel = label.textContent;
+            val.textContent = 'copied! cant wait to hear from you 📧';
+            label.textContent = '✓';
+            el.style.borderColor = 'var(--color-orange)';
+            setTimeout(() => {
+                val.textContent = orig;
+                label.textContent = origLabel;
+                el.style.borderColor = '';
+            }, 2000);
+        });
+    }
+
+    function copyPhone(el) {
+        navigator.clipboard.writeText('+966538350023').then(() => {
+            const val = el.querySelector('.contact-value');
+            const label = el.querySelector('.contact-label');
+            const orig = val.textContent;
+            const origLabel = label.textContent;
+            val.textContent = 'copied! 📞';
+            label.textContent = '✓';
+            el.style.borderColor = 'var(--color-orange)';
+            setTimeout(() => {
+                val.textContent = orig;
+                label.textContent = origLabel;
+                el.style.borderColor = '';
+            }, 2000);
+        });
+    }
