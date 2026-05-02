@@ -99,7 +99,7 @@
                 position: fixed;
                 top: 14px;
                 right: 16px;
-                z-index: 9000;
+                z-index: 500;
                 width: 42px;
                 height: 42px;
                 border-radius: 50%;
@@ -132,7 +132,7 @@
                 position: fixed;
                 top: 0;
                 right: 0;
-                z-index: 8000;
+                z-index: 490;
                 background: rgba(255, 255, 255, 0.97);
                 backdrop-filter: blur(16px);
                 border-left: 1px solid rgba(219, 165, 143, 0.2);
@@ -566,7 +566,8 @@
     transition: transform 0.55s cubic-bezier(0.4, 0, 0.2, 1);
     transform-style: preserve-3d;
 }
-.flip-card:hover .flip-inner { transform: rotateY(180deg); }
+.flip-card:hover .flip-inner,
+.flip-card.flipped .flip-inner { transform: rotateY(180deg); }
 .flip-front, .flip-back {
     position: absolute;
     inset: 0;
