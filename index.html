@@ -14,9 +14,29 @@
     <div id="sunrise-bg"></div>
 
     <!-- Navigation -->
-    <nav class="fixed top-0 w-full z-50 sticky-nav py-5">
-        <div class="container mx-auto px-6">
+    <nav class="fixed top-0 w-full z-50 sticky-nav" id="main-nav">
+        <!-- Desktop nav -->
+        <div class="container mx-auto px-6 py-5 nav-desktop">
             <ul class="flex justify-center flex-wrap gap-x-8 md:gap-x-12 gap-y-2">
+                <li><a href="#hero" class="nav-link">Home</a></li>
+                <li><a href="#about" class="nav-link">About</a></li>
+                <li><a href="#education" class="nav-link">Education</a></li>
+                <li><a href="#projects" class="nav-link">Projects</a></li>
+                <li><a href="#papers" class="nav-link">Papers</a></li>
+                <li><a href="#certifications" class="nav-link">Certifications</a></li>
+                <li><a href="#skills" class="nav-link">Skills</a></li>
+                <li><a href="#contact" class="nav-link">Contact</a></li>
+            </ul>
+        </div>
+
+        <!-- Mobile hamburger button -->
+        <button id="nav-toggle" class="nav-toggle" aria-label="Toggle menu">
+            <span></span><span></span><span></span>
+        </button>
+
+        <!-- Mobile dropdown menu -->
+        <div id="nav-mobile" class="nav-mobile">
+            <ul>
                 <li><a href="#hero" class="nav-link">Home</a></li>
                 <li><a href="#about" class="nav-link">About</a></li>
                 <li><a href="#education" class="nav-link">Education</a></li>
