@@ -454,11 +454,18 @@
             </div>`;
         document.getElementById('modal-overlay').classList.add('active');
         document.body.style.overflow = 'hidden';
+        document.getElementById('nav-toggle').style.display = 'none';
+        document.getElementById('nav-mobile').classList.remove('open');
+        document.getElementById('nav-toggle').classList.remove('open');
     }
 
     function closeModal() {
         document.getElementById('modal-overlay').classList.remove('active');
         document.body.style.overflow = '';
+        // Only restore hamburger on mobile
+        if (window.innerWidth <= 768) {
+            document.getElementById('nav-toggle').style.display = 'flex';
+        }
     }
 
     document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
