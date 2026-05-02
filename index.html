@@ -8,6 +8,16 @@
     <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&family=Bricolage+Grotesque:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="style.css">
+    <style>
+        @media (max-width: 768px) {
+            #main-nav { display: none !important; }
+            .nav-toggle { display: flex !important; }
+        }
+        @media (min-width: 769px) {
+            .nav-toggle { display: none !important; }
+            .nav-mobile { display: none !important; }
+        }
+    </style>
 </head>
 <body>
 
