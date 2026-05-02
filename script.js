@@ -318,6 +318,13 @@ window.addEventListener('load', () => {
         showBubble(getQuote());
     }, { passive: false });
 
+    // Tap on judy to dismiss bubble on mobile
+    cornerImg.addEventListener('click', () => {
+        if (!isTouchDevice()) return;
+        bubble.classList.remove('visible');
+        clearTimeout(bubbleTimeout);
+    });
+
     // Wiggle: about = first at 3s then every 6s / all others = every 15s
     let wiggleTimer;
     function scheduleWiggle(isFirst) {
