@@ -314,25 +314,19 @@ window.addEventListener('load', () => {
         return q;
     }
 
+    // Desktop: hover to show, leave to hide
     avatar.addEventListener('mouseenter', () => {
         if (ignoreMouse) return;
         showBubble(getQuote());
-        if (!isTouchDevice()) clearTimeout(bubbleTimeout);
+        clearTimeout(bubbleTimeout); // keep visible while hovering
     });
     avatar.addEventListener('mouseleave', () => {
-        if (isTouchDevice()) return;
         clearTimeout(bubbleTimeout);
         bubble.classList.remove('visible');
     });
-    avatar.addEventListener('touchstart', (e) => {
-        // If it's a drag, don't show bubble — handled by drag logic below
-        ignoreMouse = true;
-        setTimeout(() => { ignoreMouse = false; }, 600);
-    }, { passive: true });
 
-
-
-    // ---- JUDY DRAG ----
+    // ---- JUDY DRAG + TAP ----
+    // tap 1 = show bubble, tap 2 = close bubble, drag = move
     let wasDragging = false;
     let dragStartX, dragStartY, dragStartRight, dragStartBottom;
 
@@ -341,6 +335,8 @@ window.addEventListener('load', () => {
     avatar.style.bottom = '0px';
 
     avatar.addEventListener('touchstart', (e) => {
+        ignoreMouse = true;
+        setTimeout(() => { ignoreMouse = false; }, 600);
         wasDragging = false;
         const touch = e.touches[0];
         dragStartX = touch.clientX;
@@ -365,9 +361,18 @@ window.addEventListener('load', () => {
         avatar.style.bottom = newBottom + 'px';
     }, { passive: false });
 
-    avatar.addEventListener('touchend', () => {
+    avatar.addEventListener('touchend', (e) => {
         avatar.style.transition = '';
-        if (!wasDragging) showBubble(getQuote());
+        if (wasDragging) return; // was a drag, do nothing
+        e.preventDefault(); // block synthetic click that fires after touchend
+        if (bubble.classList.contains('visible')) {
+            // second tap — close
+            clearTimeout(bubbleTimeout);
+            bubble.classList.remove('visible');
+        } else {
+            // first tap — show
+            showBubble(getQuote());
+        }
     });
 
     // Wiggle: about = first at 3s then every 6s / all others = every 15s
