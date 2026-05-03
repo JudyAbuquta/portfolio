@@ -321,7 +321,7 @@ window.addEventListener('load', () => {
         clearTimeout(bubbleTimeout); // keep visible while hovering
     });
     avatar.addEventListener('mouseleave', () => {
-        if (isTouchDevice()) return; // on mobile mouseleave fires after tap — ignore it
+        if (isTouchDevice()) return;
         clearTimeout(bubbleTimeout);
         bubble.classList.remove('visible');
     });
@@ -364,14 +364,12 @@ window.addEventListener('load', () => {
 
     avatar.addEventListener('touchend', (e) => {
         avatar.style.transition = '';
-        if (wasDragging) return; // was a drag, do nothing
-        e.preventDefault(); // block synthetic click that fires after touchend
+        if (wasDragging) return;
+        e.preventDefault();
         if (bubble.classList.contains('visible')) {
-            // second tap — close
             clearTimeout(bubbleTimeout);
             bubble.classList.remove('visible');
         } else {
-            // first tap — show
             showBubble(getQuote());
         }
     });
