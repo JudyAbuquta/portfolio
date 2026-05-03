@@ -330,10 +330,23 @@ window.addEventListener('load', () => {
         setTimeout(() => { ignoreMouse = false; }, 600);
     }, { passive: true });
 
-    // Tap on judy to dismiss bubble on mobile
+    // Track when touchend just showed a bubble, so the click event that follows
+    // doesn't immediately dismiss it (tap = touchstart → touchend → click)
+    let bubbleJustShown = false;
+
+    // Patch touchend to set the flag when it shows a bubble
+    avatar.addEventListener('touchend', () => {
+        if (!wasDragging) {
+            bubbleJustShown = true;
+            setTimeout(() => { bubbleJustShown = false; }, 400);
+        }
+    }, { passive: true });
+
+    // Tap on judy: second tap dismisses, first tap (right after touchend) is ignored
     cornerImg.addEventListener('click', () => {
         if (!isTouchDevice()) return;
-        if (wasDragging) return; // don't dismiss if we just dragged
+        if (wasDragging) return;
+        if (bubbleJustShown) return; // bubble was just shown by touchend — skip dismiss
         bubble.classList.remove('visible');
         clearTimeout(bubbleTimeout);
     });
