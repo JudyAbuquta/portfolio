@@ -321,6 +321,7 @@ window.addEventListener('load', () => {
         clearTimeout(bubbleTimeout); // keep visible while hovering
     });
     avatar.addEventListener('mouseleave', () => {
+        if (isTouchDevice()) return; // on mobile mouseleave fires after tap — ignore it
         clearTimeout(bubbleTimeout);
         bubble.classList.remove('visible');
     });
