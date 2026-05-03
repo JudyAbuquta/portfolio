@@ -311,29 +311,16 @@ window.addEventListener('load', () => {
         clearTimeout(bubbleTimeout);
         bubble.classList.remove('visible');
     });
-    avatar.addEventListener('touchstart', (e) => {
-        // If it's a drag, don't show bubble — handled by drag logic below
-        ignoreMouse = true;
-        setTimeout(() => { ignoreMouse = false; }, 600);
-    }, { passive: true });
-
-    // Tap on judy to dismiss bubble on mobile
-    cornerImg.addEventListener('click', () => {
-        if (!isTouchDevice()) return;
-        if (wasDragging) return; // don't dismiss if we just dragged
-        bubble.classList.remove('visible');
-        clearTimeout(bubbleTimeout);
-    });
-
-    // ---- JUDY DRAG ----
+    // ---- JUDY DRAG + TAP (single unified touch handler) ----
     let wasDragging = false;
     let dragStartX, dragStartY, dragStartRight, dragStartBottom;
 
-    // Start from bottom-right corner positioning
     avatar.style.right = '24px';
     avatar.style.bottom = '0px';
 
     avatar.addEventListener('touchstart', (e) => {
+        ignoreMouse = true;
+        setTimeout(() => { ignoreMouse = false; }, 600);
         wasDragging = false;
         const touch = e.touches[0];
         dragStartX = touch.clientX;
@@ -342,16 +329,26 @@ window.addEventListener('load', () => {
         dragStartRight = window.innerWidth - rect.right;
         dragStartBottom = window.innerHeight - rect.bottom;
         avatar.style.transition = 'none';
+        // Show bubble instantly on touch — hide it if they start dragging
+        if (bubble.classList.contains('visible')) {
+            bubble.classList.remove('visible');
+            clearTimeout(bubbleTimeout);
+        } else {
+            showBubble(getQuote());
+        }
     }, { passive: true });
 
     avatar.addEventListener('touchmove', (e) => {
         const touch = e.touches[0];
         const dx = touch.clientX - dragStartX;
         const dy = touch.clientY - dragStartY;
-        if (Math.abs(dx) > 5 || Math.abs(dy) > 5) wasDragging = true;
+        if (Math.abs(dx) > 8 || Math.abs(dy) > 8) {
+            wasDragging = true;
+            bubble.classList.remove('visible');
+            clearTimeout(bubbleTimeout);
+        }
         if (!wasDragging) return;
         e.preventDefault();
-        bubble.classList.remove('visible');
         const newRight = Math.max(0, Math.min(window.innerWidth - 80, dragStartRight - dx));
         const newBottom = Math.max(0, Math.min(window.innerHeight - 80, dragStartBottom - dy));
         avatar.style.right = newRight + 'px';
@@ -360,7 +357,6 @@ window.addEventListener('load', () => {
 
     avatar.addEventListener('touchend', () => {
         avatar.style.transition = '';
-        if (!wasDragging) showBubble(getQuote());
     });
 
     // Wiggle: about = first at 3s then every 6s / all others = every 15s
