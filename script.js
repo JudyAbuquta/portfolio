@@ -220,7 +220,7 @@ window.addEventListener('load', () => {
             pose: 'music',
             quotes: [
                 "listening to... Don't Stop Me Now by Queen 🎶",
-                "started uni at 15, not your average college experience",
+                "started uni at 15, i guess im a fast learner.",
                 "in the zone right now 🎧",
             ]
         },
@@ -235,7 +235,7 @@ window.addEventListener('load', () => {
             pose: 'thinking',
             quotes: [
                 "sleep is a suggestion when you're debugging",
-                "started uni at 15, not your average college experience",
+                "spent the better part of my teen years on these 🙂. ",
                 "Most of my github commits are timestamped at 3am. don't judge.",
             ]
         },
@@ -251,7 +251,7 @@ window.addEventListener('load', () => {
             pose: 'donut',
             quotes: [
                 "every cert = one donut. system works ",
-                "started uni at 15, not your average college experience",
+                "whats my goal? to keep broadening my horizons",
                 "finished the course. rewarded myself. obviously.",
             ]
         },
@@ -265,7 +265,8 @@ window.addEventListener('load', () => {
         contact: {
             pose: 'cinema',
             quotes: [
-                "if i don't reply, you could probably find me at the cinema 🎬",
+                "if i don't reply, you can find me at the cinema 🎬",
+                "yes, I paused my movie for your email 🍿 "
             ]
         },
     };
