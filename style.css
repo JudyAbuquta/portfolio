@@ -874,16 +874,29 @@
 }
 
 .cert-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 34px;
+    height: 34px;
+    border-radius: 10px;
+    background: rgba(169, 194, 207, 0.12);
+    border: 1px solid rgba(169, 194, 207, 0.25);
     font-size: 1rem;
-    color: var(--color-blue-light);
+    color: var(--color-blue-dark);
     font-weight: 700;
     flex-shrink: 0;
-    transition: color 0.2s ease;
+    transition: all 0.2s ease;
     text-decoration: none;
     line-height: 1;
+    margin-left: auto;
 }
 
-.cert-link:hover { color: var(--color-orange); }
+.cert-link:hover {
+    color: var(--color-orange);
+    background: rgba(219, 165, 143, 0.1);
+    border-color: rgba(219, 165, 143, 0.35);
+}
 
 
 
@@ -975,9 +988,41 @@ section:not(#hero).fade-in {
     .btn-overview, .btn-action { font-size: 0.6rem; padding: 8px 14px; }
 
     /* Cert cards */
-    .cert-card { padding: 14px; }
+    .cert-card {
+        padding: 14px;
+        flex-wrap: nowrap;
+        align-items: center;
+        gap: 10px;
+    }
     .cert-title { font-size: 0.75rem; }
     .cert-desc { font-size: 0.65rem; }
+
+    /* Cert link — plain icon, no box */
+    .cert-link {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 30px;
+        height: 30px;
+        border-radius: 8px;
+        background: rgba(169, 194, 207, 0.15);
+        border: 1px solid rgba(169, 194, 207, 0.3);
+        font-size: 0.9rem;
+        color: var(--color-blue-dark);
+        flex-shrink: 0;
+        text-decoration: none;
+    }
+
+    /* Cert icon smaller on mobile */
+    .cert-icon {
+        width: 32px;
+        height: 32px;
+        flex-shrink: 0;
+    }
+
+    /* Cert tags wrap nicely */
+    .cert-tags { gap: 4px; margin-top: 5px; }
+    .cert-tag { font-size: 0.55rem; padding: 2px 7px; }
 
     /* Judy corner avatar — smaller on mobile */
     #judy-corner-img { width: 70px !important; }
