@@ -391,7 +391,7 @@
     max-width: 1100px;
     margin: 0 auto;
 }
-.hero-text { flex: 1; text-align: left; }
+.hero-text { flex: 1; text-align: center; }
 .hero-intro { margin-top: 1rem; margin-bottom: 0.5rem; }
 .hero-intro-line {
     font-size: 1rem;
@@ -403,125 +403,6 @@
     animation: introFade 0.6s ease forwards;
 }
 @keyframes introFade { to { opacity: 1; transform: translateY(0); } }
-
-.hero-judy-wrap {
-    flex-shrink: 0;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    position: relative;
-    transition: opacity 0.5s ease;
-}
-#hero-judy-img {
-    width: 286px;
-    height: auto;
-    filter: drop-shadow(0 8px 24px rgba(0,0,0,0.08));
-    animation: float 4s ease-in-out infinite;
-}
-@keyframes float {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-10px); }
-}
-.hero-speech-bubble {
-    background: rgba(255,255,255,0.92);
-    backdrop-filter: blur(12px);
-    border: 1px solid rgba(219,165,143,0.35);
-    border-radius: 16px 16px 4px 16px;
-    padding: 10px 16px;
-    font-size: 0.75rem;
-    color: #4a5568;
-    font-weight: 500;
-    line-height: 1.5;
-    max-width: 220px;
-    text-align: center;
-    box-shadow: 0 4px 20px rgba(0,0,0,0.06);
-    margin-bottom: 12px;
-    opacity: 0;
-    transition: opacity 0.25s ease;
-}
-@media (max-width: 768px) {
-    .hero-inner { flex-direction: column; gap: 30px; }
-    .hero-text { text-align: center; }
-    #hero-judy-img { width: 180px; }
-}
-
-/* JUDY CORNER AVATAR */
-.judy-avatar {
-    position: fixed;
-    bottom: 0;
-    right: 24px;
-    z-index: 100;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-end;
-    gap: 8px;
-    cursor: pointer;
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity 0.5s ease;
-}
-.judy-avatar.visible { opacity: 1; pointer-events: all; }
-#judy-corner-img {
-    width: 90px;
-    height: auto;
-    filter: drop-shadow(0 4px 16px rgba(0,0,0,0.1));
-    transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.25s ease;
-    transform-origin: bottom center;
-}
-.judy-avatar:hover #judy-corner-img { transform: scale(1.1) translateY(-5px); }
-
-/* MUSIC NOTES */
-.music-notes {
-    position: absolute;
-    bottom: 70px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 90px;
-    height: 80px;
-    pointer-events: none;
-}
-
-.music-note {
-    position: absolute;
-    font-size: 16px;
-    animation: floatNote linear infinite;
-    opacity: 0;
-    user-select: none;
-}
-
-@keyframes floatNote {
-    0%   { opacity: 0; transform: translateY(0) translateX(0) rotate(0deg) scale(0.8); }
-    15%  { opacity: 0.9; }
-    80%  { opacity: 0.6; }
-    100% { opacity: 0; transform: translateY(-70px) translateX(var(--drift)) rotate(20deg) scale(1.1); }
-}
-
-@keyframes wiggle {
-    0%,100% { transform: rotate(0deg); }
-    20% { transform: rotate(-6deg); }
-    40% { transform: rotate(6deg); }
-    60% { transform: rotate(-4deg); }
-    80% { transform: rotate(4deg); }
-}
-#judy-corner-img.wiggling { animation: wiggle 0.6s ease; }
-.judy-bubble {
-    background: rgba(255,255,255,0.95);
-    backdrop-filter: blur(12px);
-    border: 1px solid rgba(219,165,143,0.3);
-    border-radius: 16px 16px 4px 16px;
-    padding: 10px 14px;
-    max-width: 200px;
-    font-size: 0.72rem;
-    color: #4a5568;
-    line-height: 1.5;
-    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
-    opacity: 0;
-    transform: translateY(8px) scale(0.95);
-    transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
-    pointer-events: none;
-    text-align: right;
-}
-.judy-bubble.visible { opacity: 1; transform: translateY(0) scale(1); }
 
 .letterboxd-pill {
     display: inline-flex;
@@ -969,8 +850,6 @@ section:not(#hero).fade-in {
     .hero-subtitle { font-size: 0.65rem; letter-spacing: 0.25em; margin-bottom: 0.75rem; }
     .name-heading { font-size: 3rem !important; letter-spacing: 0.1em; }
     .btn-cta { padding: 12px 28px; font-size: 0.65rem; }
-    #hero-judy-img { width: 150px !important; }
-    .hero-speech-bubble { font-size: 0.65rem; padding: 8px 12px; max-width: 170px; }
 
     /* Glass cards — less padding, tighter */
     .glass-card { padding: 20px; border-radius: 14px; }
@@ -1021,10 +900,6 @@ section:not(#hero).fade-in {
     /* Cert tags wrap nicely */
     .cert-tags { gap: 4px; margin-top: 5px; }
     .cert-tag { font-size: 0.55rem; padding: 2px 7px; }
-
-    /* Judy corner avatar — smaller on mobile */
-    #judy-corner-img { width: 70px !important; }
-    .judy-bubble { font-size: 0.65rem; max-width: 160px; padding: 8px 10px; }
 
     /* Contact grid — single column */
     #contact .grid { grid-template-columns: 1fr !important; }
